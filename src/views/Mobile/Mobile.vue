@@ -2,7 +2,20 @@
   <div style="width: 100%; height: 100%; background: #2b2b32">
     <div class="header">
       <div class="logo-section">
-        <div class="login" @click="Gologin()">登录</div>
+        <div
+          class="login"
+          @click="Gologin()"
+          v-if="this.$store.state.login == false"
+        >
+          登录
+        </div>
+        <div
+          class="login"
+          @click="Gologin()"
+          v-if="this.$store.state.login == true"
+        >
+          已登录
+        </div>
         <img src="../../assets/home/logo.png" alt="" class="logo-img" />
         <div class="login register" @click="GoRegister()">注册</div>
       </div>
@@ -95,16 +108,16 @@
           alt=""
           width="100%"
           height="100px"
-          @click="showdata = !showdata"
+          @click="Service()"
         />
       </div>
-      <div class="qq" v-if="this.showdata">
+      <!-- <div class="qq" v-if="this.showdata">
         QQ : <br />{{ this.$Global.optioner.QQ }}
       </div>
       <div class="wx" v-if="this.showdata">
         WX : <br />
         {{ this.$Global.optioner.WX }}
-      </div>
+      </div> -->
     </div>
     <!-- v-if="this.showdata" -->
     <!-- end carousal -->
@@ -151,15 +164,42 @@
           style="height: 50rem; width: 100%"
         />
         <div class="popbtn">
-          <div class="common-btn ok" @click="PlayGame()">立即游戏</div>
+          <div
+            class="common-btn ok"
+            @click="GoSite()"
+            v-if="this.$store.state.login == true"
+          >
+            立即游戏
+          </div>
+
+          <div
+            class="common-btn ok"
+            @click="PlayGame()"
+            v-if="this.$store.state.login == false"
+          >
+            立即试玩
+          </div>
         </div>
       </div>
     </div>
     <div class="card_image">
       <div class="card">
-        <img src="../../assets/home/card4.jpg" alt="" draggable="false" />
+        <img src="../../assets/home/card3.png" alt="" draggable="false" />
         <div class="popbtn">
-          <div class="common-btn ok" @click="PlayGame()">立即游戏</div>
+          <div
+            class="common-btn ok"
+            @click="GoSite()"
+            v-if="this.$store.state.login == true"
+          >
+            立即游戏
+          </div>
+          <div
+            class="common-btn ok"
+            @click="PlayGame()"
+            v-if="this.$store.state.login == false"
+          >
+            立即试玩
+          </div>
         </div>
       </div>
     </div>
@@ -177,7 +217,7 @@
           <p>全球畅玩，多语言支持</p>
         </div>
       </div>
-      <div class="scroll__img__div" ref="block3">
+      <div class="scroll__img__div" ref="block4">
         <div class="scroll_img" v-for="(item, index) in language" :key="index">
           <img :src="item.image" alt="" draggable="false" />
           <span>{{ item.text }}</span>
@@ -198,7 +238,7 @@
           <p>视讯游戏</p>
         </div>
       </div>
-      <div class="scroll__img__div" ref="block4">
+      <div class="scroll__img__div" ref="block5">
         <div
           class="scroll_img"
           v-for="(item, index) in game"
@@ -301,6 +341,9 @@ export default {
     clearInterval(this.interval);
   },
   methods: {
+    GoSite() {
+      window.open("http://hngs.hn885.com");
+    },
     PlayGame() {
       window.open("http://hngs.hn885.com/?token=");
     },
@@ -389,9 +432,9 @@ export default {
       let data = {
         acc: this.$store.state.myAccount,
         pwd: this.$md5(this.$store.state.myPassword),
-        agent: 5, // 1.hn 2.wl 3.hngs 4.ws 5.kb
+        agent: 3, // 1.hn 2.wl 3.hngs 4.ws 5.kb
       };
-      // console.log(data, "asdfasdfasd");
+      // console.log(data);
       // let data ={
       //   acc:"admin",
       //   pwd:this.$md5("111111")
@@ -404,6 +447,7 @@ export default {
       // console.log(data1, data2, data3, add8, token)
       return token;
     },
+    //onliine service pic click and go to customer service
     Service() {
       if (this.$store.state.login == false) {
         return this.$mobilemessage.warning("请先登录");

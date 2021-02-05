@@ -6,10 +6,12 @@
         <li>
           <i class="icon icon-kefu"></i>
           <span>在线客服</span>
-          <div class="qq">{{ this.$Global.optioner.QQ }}</div>
+          <!-- <div class="qq">{{ this.$Global.optioner.QQ }}</div>
           <div class="wx">{{ this.$Global.optioner.WX }}</div>
+        </li> -->
+          <!--  -->
         </li>
-        <!--  -->
+
         <li class="app_down">
           <i class="icon icon-app"></i><span>APP下载</span>
           <div class="qrcode_div">

@@ -40,7 +40,14 @@
         <div class="login-obj">
           <div class="login_sec">
             <div class="login_btn" @click="openRegister()">注册</div>
-            <div class="login_btn reg" @click="openLogin()">登录</div>
+            <div
+              class="login_btn reg"
+              @click="openLogin()"
+              v-if="this.$store.state.login"
+            >
+              已登录
+            </div>
+            <div class="login_btn reg" @click="openLogin()" v-else>登录</div>
           </div>
         </div>
       </div>
@@ -170,6 +177,10 @@ export default {
       document.body.classList.add("modal-open");
     },
     openLogin() {
+      if (this.$store.state.login == true) {
+        return this.$message.warning("您已登陆成功");
+      }
+
       this.LoginDialog = true;
       this.RegisterDialog = false;
       document.body.classList.add("modal-open");
@@ -254,6 +265,7 @@ export default {
             return this.$message.warning("注册失败");
           }
           if (msg.JsonData.result == "101") {
+            document.body.classList.remove("modal-open");
             this.register.name = "";
             this.register.pass = "";
             this.register.checkpass = "";
@@ -295,6 +307,7 @@ export default {
           var msg = JSON.parse(AES.decrypt(body, en));
           //console.log("dataaaaaaaaaaaaaaaaaaaaaaaaaaaa", msg);
           if (msg.JsonData.code == 200) {
+            document.body.classList.remove("modal-open");
             this.$store.state.login = true;
             //here i am store user input name and pass to state
             this.$store.state.myAccount = this.login.username;

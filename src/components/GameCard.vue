@@ -14,26 +14,92 @@
           <div class="banner1 item">
             <img src="../assets/home/card1.jpg" draggable="false" />
             <div class="popbtn">
-              <div class="common-btn ok" @click="Test()">立即游戏</div>
-              <div class="common-btn empty" @click="Test()">立即游戏</div>
+              <div
+                class="common-btn ok"
+                @click="GoSite()"
+                v-if="this.$store.state.login == true"
+              >
+                立即游戏
+              </div>
+              <div
+                class="common-btn ok"
+                @click="Test()"
+                v-if="this.$store.state.login == false"
+              >
+                立即试玩
+              </div>
+              <div
+                class="common-btn empty"
+                @click="GoSite()"
+                v-if="this.$store.state.login == true"
+              >
+                立即游戏
+              </div>
+              <div
+                class="common-btn empty"
+                @click="Test()"
+                v-if="this.$store.state.login == false"
+              >
+                立即试玩
+              </div>
             </div>
           </div>
         </div>
+        <!-- 立即游戏 -->
         <!-- two -->
         <div class="item_two">
           <div class="item banner2">
             <img src="../assets/home/card2.jpg" alt="" draggable="false" />
             <div class="popbtn">
-              <div class="common-btn ok" @click="Test()">立即游戏</div>
-              <div class="common-btn empty" @click="Test()">立即游戏</div>
+              <div
+                class="common-btn ok"
+                @click="GoSite()"
+                v-if="this.$store.state.login == true"
+              >
+                立即游戏
+              </div>
+              <div
+                class="common-btn ok"
+                @click="Test()"
+                v-if="this.$store.state.login == false"
+              >
+                立即试玩
+              </div>
+              <div
+                class="common-btn empty"
+                @click="GoSite()"
+                v-if="this.$store.state.login == true"
+              >
+                立即游戏
+              </div>
+              <div
+                class="common-btn empty"
+                @click="Test()"
+                v-if="this.$store.state.login == false"
+              >
+                立即试玩
+              </div>
             </div>
           </div>
           <!--  -->
           <div class="item banner3">
-            <img src="../assets/home/card4.jpg" alt="" draggable="false" />
+            <img src="../assets/home/card3.png" alt="" draggable="false" />
             <!-- hover -->
             <div class="popbtn">
-              <div class="common-btn ok" @click="Test()">立即游戏</div>
+              <div
+                class="common-btn ok"
+                @click="GoSite()"
+                v-if="this.$store.state.login == true"
+              >
+                立即游戏
+              </div>
+              <div
+                class="common-btn ok"
+                @click="Test()"
+                v-if="this.$store.state.login == false"
+              >
+                立即试玩
+              </div>
             </div>
             <!--  -->
           </div>
@@ -41,10 +107,23 @@
         <!-- three -->
         <div class="item-con co3">
           <div class="item banner4">
-            <img src="../assets/home/card3.jpg" alt="" draggable="false" />
+            <img src="../assets/home/card4.png" alt="" draggable="false" />
             <!-- hover -->
             <div class="popbtn">
-              <div class="common-btn ok" @click="NOTest()">立即游戏</div>
+              <div
+                class="common-btn ok"
+                @click="GoSite()"
+                v-if="this.$store.state.login == true"
+              >
+                立即游戏
+              </div>
+              <div
+                class="common-btn ok"
+                @click="Test()"
+                v-if="this.$store.state.login == false"
+              >
+                立即试玩
+              </div>
             </div>
             <!--  -->
           </div>
@@ -63,6 +142,9 @@ export default {
     },
     NOTest() {
       this.$message.warning("即将上线、敬请期待");
+    },
+    GoSite() {
+      window.open("http://hngs.hn885.com");
     },
   },
 };

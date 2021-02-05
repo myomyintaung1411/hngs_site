@@ -14,14 +14,14 @@
         <footer>COPYRIGHT © HUANA INTERNATIONAL RESERVED.</footer>
         <div class="sidebar">
           <ul>
-            <li>
+            <li @click="Service()">
               <i class="icon icon-kefu"></i>
               <span>在线客服</span>
-              <div class="qq">QQ : <br />{{ qq }}</div>
+              <!-- <div class="qq">QQ : <br />{{ qq }}</div>
               <div class="wx">
                 WX :<br />
                 {{ wx }}
-              </div>
+              </div> -->
             </li>
             <!--  -->
             <li class="app_down">
@@ -103,8 +103,9 @@ export default {
       let data = {
         acc: this.$store.state.myAccount,
         pwd: this.$md5(this.$store.state.myPassword),
-        agent: 5, // 1.hn 2.wl 3.hngs 4.ws 5.kb
+        agent: 3, // 1.hn 2.wl 3.hngs 4.ws 5.kb
       };
+      // console.log(data);
       // let data ={
       //   acc:"admin",
       //   pwd:this.$md5("111111")
