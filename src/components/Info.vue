@@ -6,16 +6,26 @@
         华纳娱乐平台拥有数百位训练有素的专业荷官、真实的赌场环境、稳定的高端设备、专业的技术支持，保障了平台的稳定运营，给予玩家仿佛置身于现场的绝妙体验。并且支持多平台接入，无论玩家目前身处何处，随时可尽情享受游戏的乐趣。
       </p>
       <a class="game-free" @click="TestPlay()"> </a>
+      <h6>游戏网址 : http://hn2209.com</h6>
+      <h6>推广网址 : {{ site }}</h6>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      site: "",
+    };
+  },
   methods: {
     TestPlay() {
-      window.open("http://hngs.hn885.com/?token=");
+      window.open("http://hn2209.com/?token=");
     },
+  },
+  created() {
+    this.site = window.location.origin;
   },
 };
 </script>
@@ -39,6 +49,12 @@ export default {
       font-weight: bold;
       margin-bottom: 14px;
       color: #ffc44c;
+    }
+    h6 {
+      font-size: 15px;
+      font-weight: bold;
+      color: #ffc44c;
+      margin-top: 10px;
     }
     p {
       display: block;

@@ -2,15 +2,18 @@
 const UserName = "";
 // eslint-disable-next-line no-unused-vars
 const Id = "";
-var BASE_URL = "http://114.29.253.162:3198/";
+//var BASE_URL = "http://114.29.253.162:3198/";
+var BASE_URL = "https://www.hn8801.com/";
 export default
   {
     optioner: {
       Agentid: '',
       Agentname: "",
       QQ: "",
-      WX: ""
+      WX: "",
+      PH: ""
     },
+
 
     myLoginInfo: {
       loginId: "",
@@ -23,7 +26,7 @@ export default
     loginurl: BASE_URL + 'login',
     agentUrl: BASE_URL + 'getAgentInfo ',
     scrollData: BASE_URL + 'getBulletin',
-    PaymentUrl: 'http://wlzh.hn885.com/payment/xjw/pay',
+    PaymentUrl: 'http://pay.hn885.com/index.php',
     PaymentCallbackUrl: BASE_URL + 'pay',
     Withdrawurl: 'http://wlzh.hn885.com/payment/xjw/draw',
     WithDrawCallbackUrl: BASE_URL + 'draw',

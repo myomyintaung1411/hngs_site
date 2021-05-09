@@ -6,10 +6,17 @@
         <li>
           <i class="icon icon-kefu"></i>
           <span>在线客服</span>
-          <!-- <div class="qq">{{ this.$Global.optioner.QQ }}</div>
-          <div class="wx">{{ this.$Global.optioner.WX }}</div>
-        </li> -->
-          <!--  -->
+
+          <div
+            style="
+              height: 40px;
+              width: 40px;
+              background: red;
+              position: fixed;
+              bottom: 80px;
+              right: 80px;
+            "
+          ></div>
         </li>
 
         <li class="app_down">
@@ -136,38 +143,38 @@ footer {
     width: auto;
   }
 }
-.qq {
-  position: fixed;
-  bottom: 180px;
-  z-index: 998;
-  right: 100px;
-  height: auto;
-  background: #a87325;
-  width: 70px;
-  text-align: center;
-  padding: 10px;
-  border-radius: 5px;
-  display: none;
-  margin-bottom: 5px;
-  white-space: normal;
-  word-wrap: break-word;
-  word-break: break-all;
-}
+// .qq {
+//   position: fixed;
+//   bottom: 180px;
+//   z-index: 998;
+//   right: 100px;
+//   height: auto;
+//   background: #a87325;
+//   width: 70px;
+//   text-align: center;
+//   padding: 10px;
+//   border-radius: 5px;
+//   display: none;
+//   margin-bottom: 5px;
+//   white-space: normal;
+//   word-wrap: break-word;
+//   word-break: break-all;
+// }
 
-.wx {
-  position: fixed;
-  // bottom: 120px;
-  z-index: 998;
-  right: 100px;
-  height: auto;
-  background: #a87325;
-  width: 70px;
-  text-align: center;
-  padding: 10px;
-  border-radius: 5px;
-  white-space: normal;
-  word-wrap: break-word;
-  word-break: break-all;
-  display: none;
-}
+// .wx {
+//   position: fixed;
+//   // bottom: 120px;
+//   z-index: 998;
+//   right: 100px;
+//   height: auto;
+//   background: #a87325;
+//   width: 70px;
+//   text-align: center;
+//   padding: 10px;
+//   border-radius: 5px;
+//   white-space: normal;
+//   word-wrap: break-word;
+//   word-break: break-all;
+//   display: none;
+// }
 </style>

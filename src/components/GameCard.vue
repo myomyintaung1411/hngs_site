@@ -10,9 +10,9 @@
     <div class="card_section">
       <div class="card_flow">
         <!-- one -->
-        <div class="item_one">
+        <div class="item_one" v-scrollanimation>
           <div class="banner1 item">
-            <img src="../assets/home/card1.jpg" draggable="false" />
+            <img src="../assets/home/card1.png" draggable="false" />
             <div class="popbtn">
               <div
                 class="common-btn ok"
@@ -47,9 +47,9 @@
         </div>
         <!-- 立即游戏 -->
         <!-- two -->
-        <div class="item_two">
+        <div class="item_two" v-scrollanimation>
           <div class="item banner2">
-            <img src="../assets/home/card2.jpg" alt="" draggable="false" />
+            <img src="../assets/home/card2.png" alt="" draggable="false" />
             <div class="popbtn">
               <div
                 class="common-btn ok"
@@ -82,7 +82,7 @@
             </div>
           </div>
           <!--  -->
-          <div class="item banner3">
+          <div class="item banner3" v-scrollanimation>
             <img src="../assets/home/card3.png" alt="" draggable="false" />
             <!-- hover -->
             <div class="popbtn">
@@ -105,7 +105,7 @@
           </div>
         </div>
         <!-- three -->
-        <div class="item-con co3">
+        <div class="item-con co3" v-scrollanimation>
           <div class="item banner4">
             <img src="../assets/home/card4.png" alt="" draggable="false" />
             <!-- hover -->
@@ -135,20 +135,42 @@
 </template>
 
 <script>
+import AES from "../api/aes";
 export default {
   methods: {
     Test() {
-      window.open("http://hngs.hn885.com/?token=");
+      window.open("http://hn2209.com/?token=");
     },
     NOTest() {
       this.$message.warning("即将上线、敬请期待");
     },
     GoSite() {
-      window.open("http://hngs.hn885.com");
+      if (this.$store.state.login == false) {
+        return this.$message.warning("请先登录");
+      } else {
+        var gameEn = this.$Global.gameEn;
+        let data = {
+          name: this.$store.state.myAccount,
+          password: this.$md5(this.$store.state.myPassword),
+        };
+
+        var endata = AES.encrypt(JSON.stringify(data), gameEn);
+        //console.log(endata);
+        //console.log(endata);
+        // var repl = endata.replace(new RegExp("\\+","g"),"%20");
+        // console.log(repl);
+        //var msg = JSON.parse(AES.decrypt(endata,gameEn))
+        // let uri = `http://hn2209.com/?token=${endata}`
+        //window.open(`http://wl2021.com/?token=${endata}`);
+        //window.open(`http://hn2209.com/?token=${endata}`);
+        window.open(`http://hn2209.com/?token=${endata}`);
+      }
     },
   },
 };
 </script>
+
+
 
 <style lang="scss" scoped>
 #game_card {
@@ -320,5 +342,14 @@ export default {
   border: 1px solid #ecb350;
   color: #ebac41;
   user-select: none;
+}
+.before-enter {
+  opacity: 0;
+  transform: scale(0.5) rotateZ(-25deg);
+  transition: all 2s ease-out;
+}
+.enter {
+  opacity: 1;
+  transform: scale(1) rotateZ(0deg);
 }
 </style>

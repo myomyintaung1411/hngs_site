@@ -9,6 +9,12 @@ export default new Vuex.Store({
     myAccount: "",
     myPassowrd: ""
   },
+  getters: {
+    // login: this.state.login
+    loginGetter: state => {
+      return state.login
+    }
+  },
   mutations: {
   },
   actions: {

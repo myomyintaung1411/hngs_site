@@ -14,20 +14,29 @@
         <footer>COPYRIGHT © HUANA INTERNATIONAL RESERVED.</footer>
         <div class="sidebar">
           <ul>
-            <li @click="Service()">
+            <li class="qq_wx">
               <i class="icon icon-kefu"></i>
               <span>在线客服</span>
-              <!-- <div class="qq">QQ : <br />{{ qq }}</div>
-              <div class="wx">
-                WX :<br />
-                {{ wx }}
+              <div class="qqsection">
+                <div class="parent">
+                  <img src="../assets/home/fix.png" alt="" />
+                  <div class="qqtext">Qq:{{ this.qq }}</div>
+                  <div class="wxtext">Wx:{{ this.wx }}</div>
+                  <div class="phtext">Ph:{{ this.ph }}</div>
+                </div>
+              </div>
+              <!-- <div class="qqparent">
+                <div class="qqtext">
+                  Qq:{{this.qq}}</div>
+                <div class="wxtext">Wx:{{this.wx}}</div>
+                <div class="phtext">Ph:10011905757</div>
               </div> -->
             </li>
             <!--  -->
             <li class="app_down">
               <i class="icon icon-app"></i><span>APP下载</span>
               <div class="qrcode_div">
-                <img src="../assets/home/qr2.png" alt="" />
+                <img src="../../public/hn18881qr.png" alt="" />
               </div>
             </li>
           </ul>
@@ -47,6 +56,7 @@ import Info from "../components/Info";
 // import Footer from "../components/Footer";
 import AES from "../api/aes";
 import { Base64 } from "js-base64";
+import { mapState, mapGetters } from "vuex";
 export default {
   components: {
     GameCard,
@@ -59,6 +69,7 @@ export default {
     return {
       qq: "",
       wx: "",
+      ph: "",
     };
   },
   methods: {
@@ -78,8 +89,10 @@ export default {
             this.$Global.optioner.Agentname = msg.JsonData.name;
             this.qq = msg.JsonData.QQ;
             this.wx = msg.JsonData.WXH;
+            this.ph = msg.JsonData.phone;
             this.$Global.optioner.QQ = msg.JsonData.QQ;
             this.$Global.optioner.WX = msg.JsonData.WXH;
+            this.$Global.optioner.PH = msg.JsonData.phone;
 
             // console.log(this.$Global.optioner.Agentname);
           }
@@ -118,6 +131,12 @@ export default {
       // console.log(data1, data2, data3, add8, token)
       return token;
     },
+    Calcutime() {
+      var timestampInSeconds = Math.floor(Date.now() / 1000);
+      var date = new Date(timestampInSeconds * 1000);
+      var mill = new Date(date).getTime() / 1000;
+      return mill;
+    },
     //onliine service pic click and go to customer service
     Service() {
       if (this.$store.state.login == false) {
@@ -128,16 +147,22 @@ export default {
       }
     },
   },
+  computed: {
+    ...mapState({ login: (state) => state.login }),
+    ...mapGetters(["loginGetter"]),
+  },
   created() {
+    // console.log(window.location.href);
     var url = window.location.href;
-    // var url = "http://21019.hn232.com";
-    var s = url;
+    //var url = "http://21019.hn232.com";
+    // var s = url;
     //  console.log("ss", s);
-    var a = s.split(".")[0];
+    var a = url.split(".")[0];
     // console.log("h is", a);
     var userid = a.split("//")[1];
     //  console.log(userid,"a isssssssssssssss")
     this.GetAgentdata(userid);
+    // console.log(this.Calcutime());
   },
 };
 </script>
@@ -211,6 +236,7 @@ footer {
         top: 0;
         font-size: 38px;
       }
+
       span {
         padding: 8px 5px;
         position: relative;
@@ -262,38 +288,97 @@ footer {
     width: auto;
   }
 }
-.qq {
-  position: fixed;
-  bottom: 180px;
-  z-index: 998;
-  right: 100px;
-  height: auto;
-  background: #a87325;
-  width: 70px;
-  text-align: center;
-  padding: 10px;
-  border-radius: 5px;
+.qqsection {
   display: none;
-  margin-bottom: 5px;
-  white-space: normal;
-  word-wrap: break-word;
-  word-break: break-all;
-}
-
-.wx {
-  position: fixed;
-  // bottom: 120px;
-  z-index: 998;
-  right: 100px;
   height: auto;
-  background: #a87325;
-  width: 70px;
-  text-align: center;
-  padding: 10px;
-  border-radius: 5px;
-  white-space: normal;
-  word-wrap: break-word;
-  word-break: break-all;
-  display: none;
+  width: 150px;
+  position: fixed;
+  right: 100px;
+  bottom: 100px;
+  //  background: red;
+  .parent {
+    position: relative;
+    img {
+      height: auto;
+      width: auto;
+    }
+  }
+  .qqtext {
+    position: absolute;
+    top: 90px;
+    left: 20px;
+    font-weight: bold;
+    font-size: 16px;
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: break-all;
+    text-align: center;
+  }
+  .wxtext {
+    position: absolute;
+    top: 160px;
+    left: 20px;
+    font-weight: bold;
+    font-size: 16px;
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: break-all;
+    text-align: center;
+  }
+  .phtext {
+    position: absolute;
+    top: 230px;
+    left: 20px;
+    font-weight: bold;
+    font-size: 16px;
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: break-all;
+    text-align: center;
+  }
 }
+.qq_wx:hover {
+  .qqsection {
+    display: block;
+  }
+}
+// .qqparent {
+//   display: none;
+//   height: 280px;
+//   width: 150px;
+//   position: fixed;
+//   right: 100px;
+//   bottom: 100px;
+//   background: red;
+//   background: url(../assets/home/fix.png);
+//   background-size: 100% 100%;
+//   background-repeat: no-repeat;
+//   .qqtext {
+//     font-weight: bold;
+//     font-size: 17px;
+//     white-space: normal;
+//     word-wrap: break-word;
+//     word-break: break-all;
+//     text-align: center;
+//     margin-top: 100px;
+//   }
+//   .wxtext {
+//     font-weight: bold;
+//     font-size: 17px;
+//     white-space: normal;
+//     word-wrap: break-word;
+//     word-break: break-all;
+//     text-align: center;
+//     margin-top: 40px;
+//   }
+//   .phtext {
+//     font-weight: bold;
+//     font-size: 17px;
+//     white-space: normal;
+//     word-wrap: break-word;
+//     word-break: break-all;
+//     text-align: center;
+//     margin-top: 40px;
+//   }
+// }
 </style>

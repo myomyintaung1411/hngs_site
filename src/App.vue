@@ -44,7 +44,9 @@ export default {
 }
 body.modal-open {
   overflow: hidden;
-  background-color: orange;
+  // display: none;
+  // background-color: orange;
+  pointer-events: none;
 }
 
 ::-webkit-scrollbar {

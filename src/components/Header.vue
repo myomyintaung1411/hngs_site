@@ -35,6 +35,14 @@
               v-scroll-to="'#product_page'"
               >产品</span
             >
+            <span
+              :class="{ nav_border: active_tab == 5 }"
+              @click="openPayment()"
+              >付款</span
+            >
+            <span :class="{ nav_border: active_tab == 5 }" @click="openDraw()"
+              >提款</span
+            >
           </div>
         </div>
         <div class="login-obj">
@@ -48,8 +56,16 @@
               已登录
             </div>
             <div class="login_btn reg" @click="openLogin()" v-else>登录</div>
+            <!-- <div class="name" v-if="this.$store.state.login == true">
+              {{ this.$Global.myLoginInfo.loginName }}
+            </div> -->
           </div>
         </div>
+        <!-- name -->
+        <div class="name" v-if="this.$store.state.login == true">
+          {{ this.$Global.myLoginInfo.loginName }}
+        </div>
+        <!-- name -->
       </div>
     </header>
     <!-- reg -->
@@ -146,7 +162,91 @@
         </div>
       </form>
     </div>
-    <!-- end -->
+
+    <!-- payment -->
+    <div class="wrapper" v-if="PaymentDialog">
+      <img
+        src="../assets/closesearch.png"
+        alt=""
+        @click="ClosePaymentDialog"
+        class="close-img"
+      />
+      <div class="title">华纳公司</div>
+      <form class="form" novalidate @submit.prevent="SumbitPay">
+        <div class="field">
+          <input
+            type="number"
+            required
+            autocomplete="off"
+            v-model="payment.amount"
+          />
+          <label>请输入转账金额</label>
+        </div>
+
+        <div class="field">
+          <input type="submit" value="立即支付" />
+          <!-- <button class="btn-regi">注册账号</button> -->
+        </div>
+      </form>
+    </div>
+
+    <!-- draw -->
+    <!-- <div class="wrapper" v-if="WithdrawDialog">
+      <img
+        src="../assets/closesearch.png"
+        alt=""
+        @click="CloseDrawDialog"
+        class="close-img"
+      />
+      <div class="title">华纳公司</div>
+      <form class="form" novalidate @submit.prevent="Draw">
+        <div class="field">
+          <input
+            type="text"
+            required
+            autocomplete="off"
+            v-model="withdrawl.bankname"
+          />
+          <label>请输入银行名称</label>
+        </div>
+
+        <div class="field">
+          <input
+            type="password"
+            required
+            autocomplete="off"
+            v-model="withdrawl.bankaccount"
+          />
+          <label>请输入银行账户名称</label>
+        </div>
+
+        <div class="field">
+          <input
+            type="number"
+            required
+            autocomplete="off"
+            v-model="withdrawl.bankcard"
+          />
+          <label>请输入银行账号</label>
+        </div>
+
+        <div class="field">
+          <input
+            type="number"
+            required
+            autocomplete="off"
+            v-model="withdrawl.withdrawmoneyamount"
+          />
+          <label>请输入取款金额</label>
+        </div>
+
+        <div class="field">
+          <input type="submit" value="立即取款" />
+        
+        </div>
+      </form>
+    </div> -->
+    <!-- end of draw payment -->
   </div>
 </template>
 
@@ -166,14 +266,27 @@ export default {
         username: "",
         password: "",
       },
+      payment: {
+        amount: "",
+      },
+      withdrawl: {
+        bankname: "",
+        bankaccount: "",
+        bankcard: "",
+        withdrawmoneyamount: "",
+      },
       RegisterDialog: false,
       LoginDialog: false,
+      PaymentDialog: false,
+      WithdrawDialog: false,
     };
   },
   methods: {
     openRegister() {
       this.RegisterDialog = true;
       this.LoginDialog = false;
+      this.PaymentDialog = false;
+      // this.WithdrawDialog = false;
       document.body.classList.add("modal-open");
     },
     openLogin() {
@@ -183,7 +296,29 @@ export default {
 
       this.LoginDialog = true;
       this.RegisterDialog = false;
+      this.PaymentDialog = false;
+      // this.WithdrawDialog = false;
       document.body.classList.add("modal-open");
+    },
+    openPayment() {
+      if (this.$store.state.login == false)
+        return this.$message.warning("请先登录");
+      this.PaymentDialog = true;
+      this.RegisterDialog = false;
+      this.LoginDialog = false;
+      //this.WithdrawDialog = false;
+      document.body.classList.add("modal-open");
+      //  return this.$message.warning("请联系客服")
+    },
+    openDraw() {
+      // if (this.$store.state.login == false)
+      //   return this.$message.warning("请先登录");
+      // this.WithdrawDialog = true;
+      // this.PaymentDialog = false;
+      // this.RegisterDialog = false;
+      // this.LoginDialog = false;
+      // document.body.classList.add("modal-open");
+      return this.$message.warning("请联系客服");
     },
     CloseDialog() {
       this.RegisterDialog = false;
@@ -192,6 +327,19 @@ export default {
     CloseLoginDialog() {
       this.LoginDialog = false;
       document.body.classList.remove("modal-open");
+    },
+    ClosePaymentDialog() {
+      this.PaymentDialog = false;
+      document.body.classList.remove("modal-open");
+      this.payment.amount = "";
+    },
+    CloseDrawDialog() {
+      this.WithdrawDialog = false;
+      document.body.classList.remove("modal-open");
+      this.withdrawl.bankname = "";
+      this.withdrawl.bankaccount = "";
+      this.withdrawl.bankcard = "";
+      this.withdrawl.withdrawmoneyamount = "";
     },
     TabClick(n) {
       if (n == 1) {
@@ -237,7 +385,11 @@ export default {
         return this.$message.warning("密码必须包含数字和英文字母");
 
       var agentName = this.$Global.optioner.Agentname;
-      //console.log(agentName, "name of agent is777777777");
+
+      if (agentName == "") {
+        return this.$message.warning("您打开的网址链接没有携带ID，无法注册");
+      }
+      // console.log(agentName, "name of agent is777777777");
       let data = {
         name: this.register.name,
         pw: this.$md5(this.register.pass),
@@ -254,7 +406,7 @@ export default {
         .then((res) => {
           var body = res.data;
           var msg = JSON.parse(AES.decrypt(body, en));
-          // console.log(msg, "response msg of register is");
+        //  console.log(msg, "response msg of register is");
           if (msg.JsonData.result == "102") {
             return this.$message.warning("无此代理");
           }
@@ -303,7 +455,7 @@ export default {
         .post(this.$Global.loginurl, { data: endata })
         .then((res) => {
           var body = res.data;
-          // console.log("dataaaaaaaaaaaaaaaaaaaaaaaaaaaa",body)
+          //console.log("dataaaaaaaaaaaaaaaaaaaaaaaaaaaa", body);
           var msg = JSON.parse(AES.decrypt(body, en));
           //console.log("dataaaaaaaaaaaaaaaaaaaaaaaaaaaa", msg);
           if (msg.JsonData.code == 200) {
@@ -335,6 +487,102 @@ export default {
           // console.log(e);
           this.$message.error(e.toString());
         });
+    },
+    SumbitPay() {
+      if (this.payment.amount == "")
+        return this.$message.warning("付款金额不能为空！");
+      if (this.payment.amount < 100)
+        return this.$message.warning("付款金额不能少于100元");
+
+      // let paymentEn = this.$Global.paymentEn;
+
+      let data = {
+        // name: this.$store.state.myAccount,
+        id: this.$Global.myLoginInfo.loginId,
+        amount: this.payment.amount,
+        agent: 3,
+        cb: window.location.href,
+      };
+      // console.log(data);
+      const endata = JSON.stringify(data);
+      //1：hngj，2：wl ，3：hngs，4：es, 5: kb, 6: xh "http://103.232.84.90:8081"
+      // const headers = {
+      //   "Access-Control-Allow-Origin": "http://pay.hn885.com/",
+      //   "Content-Type": "application/json;charset=UTF-8",
+      //   Accept: "application/json",
+      //   "Access-Control-Allow-Credentials": "true",
+      // };
+      // console.log(endata);
+      //console.log(this.$Global.PaymentUrl);
+      this.axios
+        .post(this.$Global.PaymentUrl, endata)
+        .then((res) => {
+          // console.log(res);
+          var body = res.data;
+          //   console.log(body);
+          if (body.status == "success") {
+            window.open(body.data);
+            this.payment.amount = "";
+            this.PaymentDialog = false;
+            document.body.classList.remove("modal-open");
+          } else {
+            return this.$message.error(body.msg);
+          }
+        })
+        .catch((e) => {
+          //document.body.classList.remove("modal-open");
+          console.log(e);
+          this.$message.error(e.toString());
+        });
+    },
+    Draw() {
+      // if (this.withdrawl.bankname == "")
+      //   return this.$message.warning("请输入银行名称");
+      // if (this.withdrawl.bankname.length < 4)
+      //   return this.$message.warning("银行名称应有四位数");
+      // if (this.withdrawl.bankaccount == "")
+      //   return this.$message.warning("账户名称不能为空！");
+      // if (this.withdrawl.bankaccount.length < 2)
+      //   return this.$message.warning("账户名称最少两位数");
+      // if (this.withdrawl.bankcard == "")
+      //   return this.$message.warning("银行卡号不能为空！");
+      // if (this.withdrawl.bankcard.length < 16)
+      //   return this.$message.warning("银行卡号至少16位！");
+      // if (this.withdrawl.withdrawmoneyamount == "")
+      //   return this.$message.warning("请输入取款金额");
+      // if (this.withdrawl.withdrawmoneyamount < 100)
+      //   return this.$message.warning("取款金额不能少于100元");
+      // let data = {
+      //   id: this.$Global.myLoginInfo.loginId,
+      //   bank_name: this.withdrawl.bankname,
+      //   bank_account: this.withdrawl.bankaccount,
+      //   bank_card: this.withdrawl.bankcard,
+      //   amount: this.withdrawl.withdrawmoneyamount, // $amount,
+      // };
+      // console.log(data);
+      // const endata = JSON.stringify(data);
+      // this.axios
+      //   .post(this.$Global.Withdrawurl, endata)
+      //   .then((res) => {
+      //     console.log(res);
+      //     var body = res.data;
+      //     console.log(body);
+      //     if (body.status == "success") {
+      //       this.withdrawl.bankname = "";
+      //       this.withdrawl.bankaccount = "";
+      //       this.withdrawl.bankcard = "";
+      //       this.withdrawl.withdrawmoneyamount = "";
+      //       this.WithdrawDialog = false;
+      //       document.body.classList.remove("modal-open");
+      //       return this.$message.success(body.msg);
+      //     } else {
+      //       return this.$message.error(body.msg);
+      //     }
+      //   })
+      //   .catch((e) => {
+      //     console.log(e);
+      //     return this.$message.error(e.toString());
+      //   });
     },
   },
 };
@@ -375,16 +623,16 @@ export default {
     background-image: url(../assets/home/logo.png);
   }
   .menu_list {
-    margin-left: 20px;
+    // margin-left: 20px;
     flex: 1 1 0;
     font-size: 16px;
     color: #999;
     // background: green;
-    justify-content: space-evenly;
+    justify-content: space-around;
   }
   .menu {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     span {
       cursor: pointer;
@@ -400,9 +648,18 @@ export default {
     // transition: 0.5s ease-in-out;
   }
 }
+.name {
+  font-size: 20px;
+  color: #000;
+  font-weight: bold;
+  background: #ecb351;
+  padding: 13px 10px;
+  border-radius: 22px;
+  user-select: none;
+}
 .login-obj {
   min-width: 330px;
-  //   background-color: #ccc;
+  // background-color: #ccc;
   height: 100%;
 
   .login_sec {
@@ -413,6 +670,7 @@ export default {
     align-items: center;
     justify-content: space-evenly;
     text-align: center;
+
     .login_btn {
       text-align: center;
       cursor: pointer;
@@ -425,6 +683,7 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
+      user-select: none;
     }
     .reg {
       background: #ecb351;
@@ -452,10 +711,11 @@ export default {
   background: #fff;
   border-radius: 15px;
   box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
-  z-index: 1;
   left: 35%;
   top: 200px;
   overflow: hidden;
+  pointer-events: auto;
+  z-index: 1;
 }
 .wrapper .title {
   font-size: 35px;

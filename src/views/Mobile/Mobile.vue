@@ -108,7 +108,6 @@
           alt=""
           width="100%"
           height="100px"
-          @click="Service()"
         />
       </div>
       <!-- <div class="qq" v-if="this.showdata">
@@ -158,10 +157,10 @@
     <div class="card_image">
       <div class="card">
         <img
-          src="../../assets/home/card1.jpg"
+          src="../../assets/home/card2.png"
           alt=""
           draggable="false"
-          style="height: 50rem; width: 100%"
+          style="height: auto; width: 100%"
         />
         <div class="popbtn">
           <div
@@ -342,10 +341,23 @@ export default {
   },
   methods: {
     GoSite() {
-      window.open("http://hngs.hn885.com");
+      if (this.$store.state.login == false) {
+        return this.$message.warning("请先登录");
+      } else {
+        var gameEn = this.$Global.gameEn;
+        let data = {
+          name: this.$store.state.myAccount,
+          password: this.$md5(this.$store.state.myPassword),
+        };
+
+        var endata = AES.encrypt(JSON.stringify(data), gameEn);
+        let uri = `http://hn2209.com/?token=${endata}`;
+        //window.open(`http://wl2021.com/?token=${endata}`);
+        window.open(uri);
+      }
     },
     PlayGame() {
-      window.open("http://hngs.hn885.com/?token=");
+      window.open("http://hn2209.com/?token=");
     },
     makeActive(index) {
       this.currentSlide = index;
